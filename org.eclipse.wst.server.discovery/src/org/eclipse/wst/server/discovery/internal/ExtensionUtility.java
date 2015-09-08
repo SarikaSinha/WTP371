@@ -242,7 +242,7 @@ public class ExtensionUtility {
 	private static File getConfigDir() throws IOException, URISyntaxException {
 		Location cfgLoc = Platform.getConfigurationLocation();
 		URL cfgDataUrl = cfgLoc.getDataArea(Activator.PLUGIN_ID);
-		return new File(cfgDataUrl.toExternalForm());
+		return new File(cfgDataUrl.getFile());
 	}
 	
 	private static void printLog(String msg, Exception ex) {
