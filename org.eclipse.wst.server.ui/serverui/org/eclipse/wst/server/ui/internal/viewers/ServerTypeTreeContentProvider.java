@@ -91,10 +91,10 @@ public class ServerTypeTreeContentProvider extends AbstractTreeContentProvider {
 
 
 	protected boolean include(IServerType serverType) {
-		if (serverType instanceof ServerTypeProxy)
-			return true;
 		if (serverTypeId != null && !serverType.getId().startsWith(serverTypeId))
 			return false;
+		if (serverType instanceof ServerTypeProxy)
+			return true;
 		
 		try {
 			if (!((ServerType)serverType).supportsManualCreation()) {
@@ -147,16 +147,18 @@ public class ServerTypeTreeContentProvider extends AbstractTreeContentProvider {
 			int size = serverTypes.length;
 			for (int i = 0; i < size; i++) {
 				IServerType serverType = serverTypes[i];
-				try {
-					IRuntimeType runtimeType = serverType.getRuntimeType();
-					TreeElement ele = getOrCreate(list, runtimeType.getVendor());
-					if (!compareServers(ele.contents, (ServerTypeProxy)serverType)){
-						ele.contents.add(serverType);
-						elementToParentMap.put(serverType, ele);
-					}
-				} catch (Exception e) {
-					if (Trace.WARNING) {
-						Trace.trace(Trace.STRING_WARNING, "Error in server configuration content provider", e);
+				if (include(serverType)){
+					try {
+						IRuntimeType runtimeType = serverType.getRuntimeType();
+						TreeElement ele = getOrCreate(list, runtimeType.getVendor());
+						if (!compareServers(ele.contents, (ServerTypeProxy)serverType)){
+							ele.contents.add(serverType);
+							elementToParentMap.put(serverType, ele);
+						}
+					} catch (Exception e) {
+						if (Trace.WARNING) {
+							Trace.trace(Trace.STRING_WARNING, "Error in server configuration content provider", e);
+						}
 					}
 				}
 			}
