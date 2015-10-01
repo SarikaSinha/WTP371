@@ -162,4 +162,8 @@ public class Extension implements IServerExtension{
 	public String getServerId() {
 		return iu.getProperty("serverId", null);
 	}
+	
+	public String getRuntimeVendor() {
+		return iu.getProperty("vendor", null);
+	}
 }

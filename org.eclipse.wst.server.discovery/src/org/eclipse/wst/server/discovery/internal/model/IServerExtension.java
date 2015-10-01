@@ -24,4 +24,6 @@ public interface IServerExtension {
 	public String getURI() ;
 	
 	public Version getVersion() ;
+	
+	public String getRuntimeVendor() ;
 }
